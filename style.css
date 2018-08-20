@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  border-top: 2px solid #fff;
+  font-size: calc(1vw + 12px);
+  height: 100%;
+}
+
+body {
+  background: #f7f4f1;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: normal;
+  text-shadow: 0px 1px 0px rgba(255,255,255,0.75);
+  padding: 1em;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.huge, .large, h2, h3, h4 {
+  font-weight: normal;
+}
+
+
+h1 {
+  text-align: center;
+  font-style: italic;
+  font-weight: 800;
+  margin: .5em 0;
+  font-size: 2.5em;
+}
+
+.vernum {
+  font-size: 1.25em;
+}
+
+.branch {
+  font-size: .8em;
+}
+
+#flex-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  flex: 1;
+  padding: 0 1em;
+}
+
+.version {
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 90%;;
+  padding-top: 17vw;
+  text-align: center;
+  width: 17vw;
+  min-width: 160px; /* Branch logo width */
+}
+
+#stable {
+  background-image: url('images/rust-logo-blk.svg');
+}
+
+#beta {
+  background-image: url('images/rust-logo-blk.svg');
+}
+
+#nightly {
+  background-image: url('images/rust-logo-blk.svg');
+}
+
+#next-release {
+  text-align: center;
+}
+
+.brand {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  background-image: url(images/rust-logo-blk.svg);
+  background-repeat: no-repeat;
+  text-indent: -9999px;
+  width: 6em;
+  height: 3em;
+  background-size: contain;
+}
