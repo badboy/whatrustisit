@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>What train is it?</title>
+<link href="https://code.cdn.mozilla.net/fonts/fira.css" rel="stylesheet" type="text/css">
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <a href="https://www.rust-lang.org/en-US/" class="brand">Rust</a>
+  <h1>What Rust is it?</h1>
+
+  <div id="flex-container">
+    <h2 id="stable" class="version">
+      <div class="vernum">1.28.0</div>
+      <div class="branch">Stable</div>
+    </h2>
+
+    <h2 id="beta" class="version">
+      <div class="vernum">1.29.0</div>
+      <div class="branch">Beta</div>
+    </h2>
+
+    <h2 id="nightly" class="version">
+      <div class="vernum">1.30.0 (2018-08-18)</div>
+      <div class="branch">Nightly</div>
+    </h2>
+  </div>
+  <h2 id="next-release">
+    <span>Next release day: Soon</span>
+  </h2>
+
+  <script>
+    // rust 1.5's release date
+    var prevDate = new Date('2015-12-11');
+    var nextDate = new Date('2016-01-22');
+    var nextRelease = 6;
+
+    while (Date.now() > nextDate) {
+      prevDate = new Date(nextDate);
+      // there are 6 weeks in between releases
+      nextDate.setDate(nextDate.getDate() + (7 * 6));
+
+      nextRelease += 1;
+    }
+
+    // hack to get YYYY-MM-DD
+    var oneDay = 24*60*60*1000;
+    var now = new Date;
+    var diffDays = Math.round(Math.abs((nextDate.getTime() - now.getTime())/(oneDay)));
+    var dayWord = "days";
+    if (diffDays == 1) {
+      dayWord = "day"
+    }
+
+    nextDate = nextDate.toISOString().split('T')[0];
+
+    toWrite = "";
+    toWrite += "<span>Next release day: " + nextDate + "</span>";
+    toWrite += " <span>(in "+ diffDays + " " + dayWord + ")</span>"
+
+    document.getElementById('next-release').innerHTML = toWrite;
+  </script>
+</body>
+</html>
