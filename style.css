@@ -92,3 +92,7 @@ h1 {
   height: 3em;
   background-size: contain;
 }
+
+.right-bottom .github-fork-ribbon {
+  background-color: #333;
+}
