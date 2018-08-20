@@ -7,7 +7,8 @@ stable() {
 
 beta() {
   rustup toolchain add beta >&2
-  rustup run beta rustc --version | egrep -o '1\.[0-9]+\.[0-9]+'
+  rustup run beta rustc --version | \
+    sed 's/.\+\(1\.[0-9]\+\.[0-9]\+[^ ]*\).*/\1/'
 }
 
 nightly() {
