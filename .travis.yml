@@ -1,5 +1,9 @@
 language: rust
 
+branches:
+  only:
+  - gh-pages
+
 script:
   - ./build.sh
 
