@@ -31,5 +31,5 @@ jobs:
           git add index.html
           if git commit -m "Deploy nightly"; then
               echo "File regenerated. Need to push branch."
-              #git push origin gh-pages
+              git push origin gh-pages
           fi
