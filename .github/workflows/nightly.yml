@@ -29,6 +29,7 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global user.name "${GITHUB_ACTOR}"
           git add index.html
-          git commit -m "Deploy nightly"
-          echo $?
-          #git push origin gh-pages
+          if git commit -m "Deploy nightly"; then
+              echo "File regenerated. Need to push branch."
+              #git push origin gh-pages
+          fi
