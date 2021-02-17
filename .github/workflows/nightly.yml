@@ -1,0 +1,34 @@
+name: Nightly deploy
+on:
+  push:
+    branches:
+      - gh-pages
+  schedule:
+    - cron:  '50 3 * * *'
+
+jobs:
+  deploy:
+    name: Deploy nightly changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup | Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+
+      - name: Build
+        run: ./build.sh
+
+      - name: Deploy
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git add index.html
+          git commit -m "Deploy nightly"
+          echo $?
+          #git push origin gh-pages
