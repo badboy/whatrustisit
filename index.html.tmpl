@@ -37,20 +37,20 @@
     <span>Next release day: Soon</span>
   </h2>
 
-  <script type="text/javascript" src="moment.min.js"></script>
+  <script type="text/javascript" src="dayjs.min.js"></script>
   <script>
     /* from https://github.com/rust-lang/rust-forge/blob/f13e6b49e117ec84179cb969efc94894ceaa8325/js/index.js */
 
     // Rust 1.5.0 was released on 2015-12-10
-    const EPOCH_DATE = moment.utc('2015-12-10')
+    const EPOCH_DATE = dayjs.utc('2015-12-10')
     const EPOCH_RELEASE = 5
-    const newReleases = Math.floor(moment.utc().diff(EPOCH_DATE, 'weeks') / 6)
+    const newReleases = Math.floor(dayjs.utc().diff(EPOCH_DATE, 'weeks') / 6)
     const releaseNumber = EPOCH_RELEASE + newReleases + 1
     const displayVersion = `1.${releaseNumber}`
     const releaseDate = EPOCH_DATE.clone().add((newReleases + 1) * 6, 'weeks')
 
     const nextDate = releaseDate.format('YYYY-MM-DD')
-    const diffDays = releaseDate.diff(moment.utc(), 'days')
+    const diffDays = releaseDate.diff(dayjs.utc(), 'days')
     const dayWord = "days";
     if (diffDays == 1) {
       dayWord = "day"
