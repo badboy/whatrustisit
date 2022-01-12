@@ -51,7 +51,7 @@
 
     const nextDate = releaseDate.format('YYYY-MM-DD')
     const diffDays = releaseDate.diff(dayjs.utc(), 'days')
-    const dayWord = "days";
+    let dayWord = "days";
     if (diffDays == 1) {
       dayWord = "day"
     }
