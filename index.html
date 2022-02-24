@@ -41,26 +41,37 @@
   <script>
     /* from https://github.com/rust-lang/rust-forge/blob/f13e6b49e117ec84179cb969efc94894ceaa8325/js/index.js */
 
-    // Rust 1.5.0 was released on 2015-12-10
-    const EPOCH_DATE = dayjs.utc('2015-12-10')
-    const EPOCH_RELEASE = 5
-    const newReleases = Math.floor(dayjs.utc().diff(EPOCH_DATE, 'weeks') / 6)
-    const releaseNumber = EPOCH_RELEASE + newReleases + 1
-    const displayVersion = `1.${releaseNumber}`
-    const releaseDate = EPOCH_DATE.clone().add((newReleases + 1) * 6, 'weeks')
+    function release() {
+      // Rust 1.5.0 was released on 2015-12-10
+      const EPOCH_DATE = dayjs.utc('2015-12-10')
+      const EPOCH_RELEASE = 5
+      const now = dayjs.utc()
+      console.log({now: now.format('YYYY-MM-DD')});
+      const newReleases = Math.floor(now.diff(EPOCH_DATE, 'weeks') / 6)
+      const currentRelease = EPOCH_DATE.clone().add(newReleases * 6, 'weeks')
+      const releaseDate = EPOCH_DATE.clone().add((newReleases+1) * 6, 'weeks')
 
-    const nextDate = releaseDate.format('YYYY-MM-DD')
-    const diffDays = releaseDate.diff(dayjs.utc(), 'days')
-    let dayWord = "days";
-    if (diffDays == 1) {
-      dayWord = "day"
+      const currentDiff = currentRelease.diff(now, 'days')
+      if (currentDiff == 0) {
+        return "<span>Next release day: TODAY</span>"
+      }
+
+      const nextDate = releaseDate.format('YYYY-MM-DD')
+      console.log({nextDate});
+      const diffDays = releaseDate.diff(now, 'days')
+      let dayWord = "days";
+      if (diffDays == 1) {
+        dayWord = "day"
+      }
+
+      let toWrite = "";
+      toWrite += "<span>Next release day: " + nextDate + "</span>";
+      toWrite += " <span>(in "+ diffDays + " " + dayWord + ")</span>"
+
+      return toWrite;
     }
 
-    let toWrite = "";
-    toWrite += "<span>Next release day: " + nextDate + "</span>";
-    toWrite += " <span>(in "+ diffDays + " " + dayWord + ")</span>"
-
-    document.getElementById('next-release').innerHTML = toWrite;
+    document.getElementById('next-release').innerHTML = release();
   </script>
 </body>
 </html>
