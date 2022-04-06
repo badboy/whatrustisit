@@ -58,8 +58,11 @@
 
       const nextDate = releaseDate.format('YYYY-MM-DD')
       console.log({nextDate});
-      const diffDays = releaseDate.diff(now, 'days')
+      let diffDays = releaseDate.diff(now, 'days')
       let dayWord = "days";
+      if (diffDays == 0) {
+        diffDays = 1
+      }
       if (diffDays == 1) {
         dayWord = "day"
       }
