@@ -28,3 +28,8 @@ sed \
   -e "s/{BETA}/$b/" \
   -e "s/{NIGHTLY}/$n/" \
   index.html.tmpl > index.html
+
+echo "$s" > stable
+echo "$b" > beta
+echo "$n" > nightly
+
