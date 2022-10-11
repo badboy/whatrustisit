@@ -28,3 +28,18 @@ sed \
   -e "s/{BETA}/$b/" \
   -e "s/{NIGHTLY}/$n/" \
   index.html.tmpl > index.html
+
+cat <<EOS > stable
+[toolchain]
+channel = "$s"
+EOS
+
+cat <<EOS > beta
+[toolchain]
+channel = "$b"
+EOS
+
+cat <<EOS > nightly
+[toolchain]
+channel = "$n"
+EOS
