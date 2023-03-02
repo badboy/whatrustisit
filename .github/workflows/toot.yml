@@ -2,7 +2,7 @@ name: Toot
 on:
   push:
     branches:
-      - toot
+      - toots
   schedule:
     - cron:  '30 15 * * *'
 
