@@ -22,6 +22,11 @@ jobs:
         run: ./build.sh
 
       - name: Toot
+        env:
+          MASTO_ACCESS_TOKEN: ${{ secrets.MASTO_ACCESS_TOKEN }}
+          MASTO_URL: ${{ secrets.MASTO_URL }}
+          MASTO_CLIENT_ID: ${{ secrets.MASTO_CLIENT_ID }}
+          MASTO_CLIENT_SECRET: ${{ secrets.MASTO_CLIENT_SECRET }}
         run: |
           cd toot
           pip install -r requirements.txt
