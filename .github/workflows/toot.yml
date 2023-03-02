@@ -1,0 +1,36 @@
+name: Toot
+on:
+  push:
+    branches:
+      - toot
+  schedule:
+    - cron:  '30 15 * * *'
+
+jobs:
+  deploy:
+    name: Toot
+    runs-on: ubuntu-latest
+    environment: toot
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup | Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup | Python
+        run: |
+          pip install -r requirements.txt
+
+      - name: Toot
+        run: ./toot.py
+
+      - name: Deploy
+        run: |
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git add stable beta
+          if git commit -m "🦀 New Rust version"; then
+              echo "File regenerated. Need to push branch."
+              git push origin toot
+          fi
