@@ -31,7 +31,7 @@ def post(api, toolchain, version):
         msg += "\n"
         msg += f"📝 Changelog at https://github.com/rust-lang/rust/blob/{version}/RELEASES.md"  # noqa
     print(f"Posting: {msg}\n")
-    api.status_post(msg, visibility="private")
+    api.status_post(msg)
 
 
 MASTO_ACCESS_TOKEN = os.environ["MASTO_ACCESS_TOKEN"]
