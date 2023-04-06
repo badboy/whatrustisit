@@ -93,6 +93,7 @@ h1 {
   background-size: contain;
 }
 
-.right-bottom .github-fork-ribbon {
-  background-color: #333;
+footer p {
+  margin: 0;
+  font-size: 0.6em;
 }
