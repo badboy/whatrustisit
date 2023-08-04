@@ -13,7 +13,7 @@ jobs:
     environment: toot
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup | Rust
         uses: dtolnay/rust-toolchain@stable
