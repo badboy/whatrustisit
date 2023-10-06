@@ -13,34 +13,27 @@ else
 fi
 
 rustc_crawl() {
-  ptrn='\[pkg\.rust\]\nversion = "\K[^"]+'
-  relday=$(date -I)  # Today's date
-  # Rust stable updates happen every 6 weeks, starting at 2015-12-10.
-  # This would be a very clean method of extracting versions, were it not for patches.
-  # Rust 1.72.1 was released 21 days after 1.72.0 for example, but 1.73.0 was still
-  # on schedule. This makes last modified time of the stable file unreliable.
-  if [[ "$1" = 'stable' ]] ; then
-      rustup run stable rustc --version > ./toot/stable
-      $GREP -Eo '[0-9]+\.[0-9]+\.[0-9]+' ./toot/stable
-      return 0
-  fi
-
-  # nightly releases should be found on the first check here, making it equivalent to an if,
-  # but beta releases are a pain in the behind to track down, so we probe a few days for those.
-  # On the off chance this ever runs before nightly builds, nightly falls back to yesterday's.
-  while [[ $(curl -s "https://static.rust-lang.org/?prefix=dist/$relday" | $GREP -c "$1") == '0' ]] ; do
-    relday=$(date -I -d "$relday -1 day")
-  done
-  # Extract whatever version information upstream provides!
-  curl -s "https://static.rust-lang.org/dist/$relday/channel-rust-$1.toml" | $GREP -ozP "$ptrn" | tr -d '\0'
+  # as per https://forge.rust-lang.org/infra/channel-layout.html we should be
+  # able to get the latest release from "dist/channel-rust-$channelname.toml".
+  # For nightly, component selection might make an upgrade impossible, for which
+  # the solution is looping 21 (unless user overrides) releases back in time.
+  # see: https://github.com/rust-lang/rustup/blob/cd3a10fba80e10f176985d8afd8d20a9be3ec0c4/src/dist/dist.rs#L754
+  # But for whatrustisit, we just need to know the latest base toolchain, for
+  # which the channel pattern does provide proper information.
+  curl -s "https://static.rust-lang.org/dist/channel-rust-$1.toml" | \
+  $GREP -ozP '\[pkg\.rust\]\nversion = "\K[^"]+' | \
+  tr -d '\0'
 }
 
-rustup update stable >&2
-
 s=$(rustc_crawl 'stable')
+echo "rustc $s" > ./toot/stable
+s=$($SED 's/\(.*\)\s(.*)/\1/' <<< $s)
+
 b=$(rustc_crawl 'beta')
 echo "rustc $b" > ./toot/beta
+toolchain_b=$($SED 's/.*\(beta\).*(.*\s\(.*\))/\1-\2/' <<< $b)
 b=$($SED 's/\(.*beta.*\s(\).*\s\(.*)\)/\1\2/' <<< $b)
+
 n=$(rustc_crawl 'nightly' | $SED 's/\(.*\)-nightly\(\s(\).*\s\(.*)\)/\1\2\3/')
 
 nightlyDate=$($SED 's/.*(\(.*\))/\1/' <<< $n)
@@ -56,12 +49,12 @@ cat <<EOS > stable
 channel = "$s"
 EOS
 
-# We can't pick the beta version without knowing the _exact_ release date,
-# which is not even exposed anywhere.
-# Maybe we can eventually parse https://static.rust-lang.org/manifests.txt
+# We can't pick any specific beta version without knowing the
+# _exact_ release date, which is not even exposed anywhere.
+# Luckily static.rust-lang.org _can_ provide us with the latest TOML beta!
 cat <<EOS > beta
 [toolchain]
-channel = "beta"
+channel = "$toolchain_b"
 EOS
 
 cat <<EOS > nightly
