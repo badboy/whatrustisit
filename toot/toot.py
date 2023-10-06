@@ -1,26 +1,10 @@
 #!/usr/bin/env python3
 
 import os
-import shlex
 import subprocess
 import sys
 
 from mastodon import Mastodon
-
-
-def shell_command(command, silent=False):
-    command = shlex.split(command)
-    return subprocess.check_output(command).decode("utf-8")
-
-
-def install_rust():
-    pass
-    # subprocess.run(["rustup", "toolchain", "add", "stable"])
-    # subprocess.run(["rustup", "toolchain", "add", "beta"])
-
-
-def rustc_version(toolchain):
-    return shell_command(f"rustup run {toolchain} rustc --version")
 
 
 def post(api, toolchain, version):
@@ -50,13 +34,9 @@ if __name__ == "__main__":
         print(f"no api: {api}")
         sys.exit(1)
 
-    install_rust()
-
     for toolchain in ["stable", "beta"]:
-        output = rustc_version(toolchain)
-        with open(toolchain, "w") as fp:
-            fp.write(output)
-
-        res = subprocess.run(["git", "--no-pager", "diff", "--quiet", toolchain])
-        if res.returncode != 0:
-            post(api, toolchain, output)
+        with open(toolchain, "r") as fp:
+            output = fp.readline()
+            res = subprocess.run(["git", "--no-pager", "diff", "--quiet", toolchain])
+            if res.returncode != 0:
+                post(api, toolchain, output)
