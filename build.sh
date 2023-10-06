@@ -29,9 +29,10 @@ s=$(rustc_crawl 'stable')
 echo "rustc $s" > ./toot/stable
 s=$($SED 's/\(.*\)\s(.*)/\1/' <<< $s)
 
+beta_date=$(curl -s "https://static.rust-lang.org/dist/channel-rust-beta.toml" | \
+            $GREP -ozP 'date = "\K[^"]+' | tr -d '\0')
 b=$(rustc_crawl 'beta')
 echo "rustc $b" > ./toot/beta
-toolchain_b=$($SED 's/.*\(beta\).*(.*\s\(.*\))/\1-\2/' <<< $b)
 b=$($SED 's/\(.*beta.*\s(\).*\s\(.*)\)/\1\2/' <<< $b)
 
 n=$(rustc_crawl 'nightly' | $SED 's/\(.*\)-nightly\(\s(\).*\s\(.*)\)/\1\2\3/')
@@ -54,7 +55,7 @@ EOS
 # Luckily static.rust-lang.org _can_ provide us with the latest TOML beta!
 cat <<EOS > beta
 [toolchain]
-channel = "$toolchain_b"
+channel = "beta-$beta_date"
 EOS
 
 cat <<EOS > nightly
