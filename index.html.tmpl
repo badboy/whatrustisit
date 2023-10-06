@@ -73,11 +73,7 @@
         dayWord = "day"
       }
 
-      let toWrite = "";
-      toWrite += "<span>Next release day: " + nextDate + "</span>";
-      toWrite += " <span>(in "+ diffDays + " " + dayWord + ")</span>"
-
-      return toWrite;
+      return `<span>Next release day: ${nextDate} (in ${diffDays} ${dayWord})</span>`;
     }
 
     document.getElementById('next-release').innerHTML = release();
