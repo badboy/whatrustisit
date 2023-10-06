@@ -53,7 +53,7 @@ EOS
 # Maybe we can eventually parse https://static.rust-lang.org/manifests.txt
 cat <<EOS > beta
 [toolchain]
-channel = "beta-${betaDate}"
+channel = "beta"
 EOS
 
 cat <<EOS > nightly
