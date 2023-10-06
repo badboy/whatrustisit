@@ -31,7 +31,7 @@ rustc_crawl() {
 rustup update stable >&2
 
 s=$(rustc_crawl 'stable')
-b=$(rustc_crawl 'beta' | $SED 's/\(.*beta.1\s(\).*\s\(.*)\)/\1\2/')
+b=$(rustc_crawl 'beta' | $SED 's/\(.*beta.*\s(\).*\s\(.*)\)/\1\2/')
 n=$(rustc_crawl 'nightly' | $SED 's/\(.*\)-nightly\(\s(\).*\s\(.*)\)/\1\2\3/')
 
 betaDate=$($SED 's/.*(\(.*\))/\1/' <<< $b)
