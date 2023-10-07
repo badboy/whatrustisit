@@ -35,8 +35,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     for toolchain in ["stable", "beta"]:
-        with open(toolchain, "r") as fp:
-            output = fp.readline()
-            res = subprocess.run(["git", "--no-pager", "diff", "--quiet", toolchain])
-            if res.returncode != 0:
-                post(api, toolchain, output)
+        res = subprocess.run(["git", "--no-pager", "diff", "--quiet", toolchain])
+        if res.returncode != 0:
+            with open(toolchain, "r") as fp:
+                post(api, toolchain, fp.readline())
