@@ -45,6 +45,7 @@ if __name__ == "__main__":
         api_base_url=MASTO_URL,
         client_id=MASTO_CLIENT_ID,
         client_secret=MASTO_CLIENT_SECRET,
+        version_check_mode="none"
     )
     if not api:
         print(f"no api: {api}")
